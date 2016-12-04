@@ -24,10 +24,10 @@ namespace CourseWork.GUI
 		{
 			InitializeComponent();
 
-			encode.Click = (o, e) => {
-				byte[] source = Encoding.ASCII.GetBytes(encode.Input);
+			decode.Click = (o, e) => {
+				byte[] source = Encoding.ASCII.GetBytes(decode.Input);
 				byte[] decodedSource = Abramson.Code.Decode(source);
-				encode.Output = Encoding.ASCII.GetString(decodedSource);
+				decode.Output = Encoding.ASCII.GetString(decodedSource);
 			};
 		}
 	}
