@@ -24,7 +24,7 @@ namespace CourseWork.GUI
 		public AbramsonControl()
 		{
 			InitializeComponent();
-			Polinom = Abramson.Code.Polinom.ToString();
+			Polinom = Abramson.Code.Polinom.ToString("b");
 		}
 
 		public string Input
