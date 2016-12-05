@@ -12,10 +12,10 @@ namespace CourseWork.GUI
 		{
 			InitializeComponent();
 
-			decode.Click = (o, e) => {
-				byte[] source = Encoding.ASCII.GetBytes(decode.Input);
-				byte[] decodedSource = Abramson.Code.Decode(source);
-				decode.Output = Encoding.ASCII.GetString(decodedSource);
+			encoder.Click = (o, e) => {
+				byte[] source = Encoding.ASCII.GetBytes(encoder.Input);
+				byte[] encodedSource = Abramson.Code.Encode(source);
+				encoder.Output = Encoding.ASCII.GetString(encodedSource);
 			};
 		}
 	}
