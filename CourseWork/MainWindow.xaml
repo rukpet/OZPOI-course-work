@@ -8,11 +8,11 @@
         Title="Abramson`s code" Height="350" Width="525">
     <TabControl>
         <TabItem Header="Decode">
-            <local:AbramsonControl x:Name="encoder"></local:AbramsonControl>
+            <local:AbramsonControl x:Name="encoder"/>
         </TabItem>
 
         <TabItem Header="Encode">
-            <local:AbramsonControl x:Name="decoder"></local:AbramsonControl>
+            <local:AbramsonControl x:Name="decoder"/>
         </TabItem>
     </TabControl>
 </Window>

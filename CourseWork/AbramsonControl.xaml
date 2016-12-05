@@ -13,10 +13,10 @@
         <Style BasedOn="{StaticResource textControlStyle}" TargetType="TextBox">
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontFamily" Value="Yu Gothic Medium"/>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"/>
             <Style.Triggers>
                 <Trigger Property="IsReadOnly" Value="True">
-                    <Setter Property="BorderThickness" Value="0"></Setter>
+                    <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

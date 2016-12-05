@@ -9,13 +9,8 @@
 		// = x^5 + x^4 + x^3 + x^2 + x^1 + 1
 		// шуканий поліном -- 111111
 		static public readonly BitArray Polinom = new BitArray(new byte[] { 63 }, 6);
+
 		static public byte[] Encode(byte[] source)
-		{
-
-			return new byte[0];
-		}
-
-		static public byte[] Decode(byte[] source)
 		{
 			// довжина кодової комбінації Абрамсона 2^h - 1 = 15,
 			// де h -- степінь неприводимого полінома
@@ -48,6 +43,11 @@
 			}
 
 			return result;
+		}
+
+		static public byte[] Decode(byte[] source)
+		{
+			return new byte[0];
 		}
 
 		private static byte[] PadBits(byte[] source, int padding)
