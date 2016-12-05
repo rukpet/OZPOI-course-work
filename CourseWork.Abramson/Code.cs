@@ -10,54 +10,78 @@
 		// шуканий поліном -- 111111
 		static public readonly BitArray Polinom = new BitArray(new byte[] { 63 }, 6);
 
+		// довжина кодової комбінації Абрамсона 2^h - 1 = 15,
+		// де h -- степінь неприводимого полінома
+		const int lenCombinaton = 15;
+		const int lenInfBits = 10; // inf -- information
+		const int lenRemnant = lenCombinaton - lenInfBits;
+
 		static public byte[] Encode(byte[] source)
 		{
-			// довжина кодової комбінації Абрамсона 2^h - 1 = 15,
-			// де h -- степінь неприводимого полінома
-			const int countXor = 5;
-			const int lenRemnant = 5;
-			const int lenInfBits = 10; // inf -- information
-			const int indexRemainder = lenInfBits - lenRemnant;
-			const int lenCombinaton = lenInfBits + lenRemnant;
 
-			int countBits = source.Length * 8;
-			int count = countBits % lenInfBits != 0 ? countBits / lenInfBits + 1 : countBits / lenInfBits;
-
-			int padding = count * lenInfBits;
+			int numberCombinatons = BitArray.GetLenght(source.Length * 8, lenInfBits);
+			int padding = numberCombinatons * lenInfBits;
 			byte[] paddedSource = PadBits(source, padding);
 
-			int countBytes = source.Length * 2 - source.Length / 8;
+			int countBytes = BitArray.GetLenght(numberCombinatons * lenCombinaton, 8);
 			byte[] result = new byte[countBytes];
 
-			for (int i = 0; i < count; i++)
+			for (int i = 0; i < numberCombinatons; i++)
 			{
 				var infBits = new BitArray(paddedSource, new BitArray.Segment(i * lenInfBits, lenInfBits));
-
 				infBits.CopyTo(result, i * lenCombinaton);
 
-				for (int j = 0; j < countXor; j++)
-					if (infBits[j])
-						infBits = infBits.Xor(j, Polinom);
-
-				infBits.CopyRangeTo(new BitArray.Segment(indexRemainder, lenRemnant), result, (i + 1) * lenCombinaton - lenRemnant);
+				var remnant = GetRemnant(infBits);
+				remnant.CopyTo(result, (i + 1) * lenCombinaton - lenRemnant);
 			}
 
 			return result;
 		}
 
-		static public byte[] Decode(byte[] source)
-		{
-			return new byte[0];
-		}
-
 		private static byte[] PadBits(byte[] source, int padding)
 		{
-			if (source.Length >= padding)
+			if (source.Length * 8 >= padding)
 				return source;
 
-			byte[] paddedSource = new byte[BitArray.GetBytesLenght(padding)];
+			byte[] paddedSource = new byte[BitArray.GetLenght(padding, 8)];
 			source.CopyTo(paddedSource, 0);
 			return paddedSource;
+		}
+
+		private static BitArray GetRemnant(BitArray infBits)
+		{
+			const int countXor = lenInfBits - lenRemnant;
+			const int indexRemnant = lenInfBits - lenRemnant;
+
+			for (int j = 0; j < countXor; j++)
+				if (infBits[j])
+					infBits = infBits.Xor(j, Polinom);
+
+			return infBits[new BitArray.Segment(indexRemnant, lenRemnant)];
+		}
+
+		static public byte[] Decode(byte[] source)
+		{
+			int numberCombinatons = source.Length * 8 / 15;
+			//int totalInfBits = numberCombinaton * 10;
+			int countBytes = BitArray.GetLenght(numberCombinatons * lenInfBits, 8);
+
+			byte[] result = new byte[countBytes];
+
+			//for (int i = 0; i < numberCombinatons; i++)
+			//{
+			//	var combination = new BitArray(source, new BitArray.Segment(i * lenInfBits, lenInfBits));
+
+			//	infBits.CopyTo(result, i * lenCombinaton);
+
+			//	for (int j = 0; j < countXor; j++)
+			//		if (infBits[j])
+			//			infBits = infBits.Xor(j, Polinom);
+
+			//	infBits.CopyRangeTo(new BitArray.Segment(indexRemainder, lenRemnant), result, (i + 1) * lenCombinaton - lenRemnant);
+			//}
+
+			return new byte[0];
 		}
 	}
 }

@@ -12,13 +12,14 @@
         </Style>
         <Style BasedOn="{StaticResource textControlStyle}" TargetType="TextBox">
             <Setter Property="FontSize" Value="18"/>
-            <Setter Property="FontFamily" Value="Yu Gothic Medium"/>
+            <!--<Setter Property="FontFamily" Value="Yu Gothic Medium"/>-->
             <Setter Property="TextWrapping" Value="Wrap"/>
-            <Style.Triggers>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <!--<Style.Triggers>
                 <Trigger Property="IsReadOnly" Value="True">
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
-            </Style.Triggers>
+            </Style.Triggers>-->
         </Style>
         <Style BasedOn="{StaticResource textControlStyle}" TargetType="Button">
             <Setter Property="Height" Value="40"/>

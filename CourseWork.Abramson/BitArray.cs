@@ -31,6 +31,19 @@ namespace CourseWork
 			}
 		}
 
+		public BitArray this[Segment segment]
+		{
+			get
+			{
+				if (segment.Index < 0 || segment.Index >= _length)
+					throw new ArgumentOutOfRangeException(nameof(segment.Index));
+				if (_length - segment.Index < segment.Length)
+					throw new ArgumentOutOfRangeException(nameof(segment.Length));
+
+				return new BitArray(_array, segment);
+			}
+		}
+
 		public int Length => _length;
 
 		public BitArray(int lenght)
@@ -113,7 +126,7 @@ namespace CourseWork
 		{
 			if (source.Length * 8 - sourceSegment.Index < sourceSegment.Length)
 				throw new ArgumentOutOfRangeException(nameof(sourceSegment.Index));
-			if (target.Length * 8 - startBit < target.Length)
+			if (target.Length * 8 - startBit < sourceSegment.Length)
 				throw new ArgumentOutOfRangeException(nameof(startBit));
 
 			for (int i = 0; i < sourceSegment.Length; i++)
@@ -121,10 +134,14 @@ namespace CourseWork
 				SetBit(target, GetBit(source, sourceSegment.Index + i), startBit + i);
 			}
 		}
-		public static int GetBytesLenght(int lenghtBit)
+		private static int GetBytesLenght(int lenghtBit)
 		{
-			return lenghtBit % 8 == 0 ? lenghtBit / 8
-									  : lenghtBit / 8 + 1;
+			return GetLenght(lenghtBit, 8);
+		}
+
+		public static int GetLenght(int lenghtBit, int bitsPerUnit)
+		{
+			return lenghtBit > 0 ? (((lenghtBit - 1) / bitsPerUnit) + 1) : 0;
 		}
 
 		public IEnumerator<bool> GetEnumerator()
