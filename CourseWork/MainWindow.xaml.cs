@@ -13,15 +13,15 @@ namespace CourseWork.GUI
 			InitializeComponent();
 
 			encoder.Click = (o, e) => {
-				byte[] source = Encoding.GetEncoding(1251).GetBytes(encoder.Input);
+				byte[] source = Encoding.Default.GetBytes(encoder.Input);
 				byte[] encodedSource = Abramson.Code.Encode(source);
-				encoder.Output = Encoding.GetEncoding(1251).GetString(encodedSource);
+				encoder.Output = Encoding.Default.GetString(encodedSource);
 			};
 
 			decoder.Click = (o, e) => {
-				byte[] source = Encoding.GetEncoding(1251).GetBytes(decoder.Input);
+				byte[] source = Encoding.Default.GetBytes(decoder.Input);
 				byte[] encodedSource = Abramson.Code.Decode(source);
-				decoder.Output = Encoding.GetEncoding(1251).GetString(encodedSource);
+				decoder.Output = Encoding.Default.GetString(encodedSource);
 			};
 		}
 	}
