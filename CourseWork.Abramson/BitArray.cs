@@ -46,6 +46,10 @@ namespace CourseWork
 
 		public int Length => _length;
 
+		public int Weight => this.Count(b => b);
+
+		public bool IsPosBitNearby => this.Count(b => b) == this.SkipWhile(b => !b).TakeWhile(b => b).Count();
+
 		public BitArray(int lenght)
 		{
 			_length = lenght;
@@ -56,20 +60,18 @@ namespace CourseWork
 			: this(array, new Segment(0, length)) { }
 
 		public BitArray(byte[] array, Segment segment)
+			: this(array, segment, segment.Length) { }
+
+		public BitArray(byte[] array, Segment segment, int length)
 		{
-			if (array.Length * 8 - segment.Index < segment.Length)
+			if (array.Length * 8 - segment.Index < segment.Length && segment.Length < length)
 				throw new ArgumentOutOfRangeException(nameof(segment.Length));
 
-			_array = new byte[GetBytesLenght(segment.Length)];
-			_length = segment.Length;
+			_length = length;
+			_array = new byte[GetBytesLenght(length)];
 
 			CopyBits(array, segment, _array, 0);
 		}
-
-		//public BitArray(int lenght, byte[] source, Segment segment) : this(lenght)
-		//{
-		//	CopyBits(source, segment, _array, 0);
-		//}
 
 		private static bool GetBit(byte[] array, int index)
 		{
@@ -92,9 +94,30 @@ namespace CourseWork
 			CopyBits(_array, new Segment(0, _length), target, startBit);
 		}
 
+		public void CopyTo(int length, byte[] target, int startBit)
+		{
+			CopyBits(_array, new Segment(0, length), target, startBit);
+		}
+
 		public void CopyRangeTo(Segment segment, byte[] target, int startBit)
 		{
-			new BitArray(_array, segment).CopyTo(target, startBit);
+			CopyBits(_array, segment, target, startBit);
+		}
+
+		public BitArray CyclicShift(int shift)
+		{
+			var result = new BitArray(this._length);
+			int relativeShift = shift % this._length;
+
+			if (relativeShift < 0)
+				relativeShift = this._length + relativeShift;
+
+			int lenFirstCopy = this._length - relativeShift;
+
+			CopyBits(this._array, new Segment(relativeShift, lenFirstCopy), result._array, 0);
+			CopyBits(this._array, new Segment(0, relativeShift), result._array, lenFirstCopy);
+
+			return result;
 		}
 
 		//private static void CopyBits(byte[] source, int length, byte[] target, int startBit)
@@ -164,7 +187,7 @@ namespace CourseWork
 				case "h":
 				case "":
 				case null:
-					return new string(BitConverter.ToString(_array).Reverse().ToArray());
+					return new string(BitConverter.ToString(_array).ToArray());
 				case "b":
 					return this.Reverse().Aggregate(new StringBuilder(), (sb, b) => sb.Append(b ? 1 : 0), sb => sb.ToString());
 				default:

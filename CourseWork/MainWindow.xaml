@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="Abramson`s code" Height="350" Width="525">
     <TabControl>
-        <TabItem Header="Decode">
+        <TabItem Header="Encoder">
             <local:AbramsonControl x:Name="encoder"/>
         </TabItem>
 
-        <TabItem Header="Encode">
+        <TabItem Header="Decoder">
             <local:AbramsonControl x:Name="decoder"/>
         </TabItem>
     </TabControl>
