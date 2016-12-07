@@ -12,15 +12,14 @@
         </Style>
         <Style BasedOn="{StaticResource textControlStyle}" TargetType="TextBox">
             <Setter Property="FontSize" Value="18"/>
-            <!--<Setter Property="FontFamily" Value="Yu Gothic Medium"/>-->
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <!--<Style.Triggers>
-                <Trigger Property="IsReadOnly" Value="True">
-                    <Setter Property="BorderThickness" Value="0"/>
-                </Trigger>
-            </Style.Triggers>-->
         </Style>
+
+        <Style BasedOn="{StaticResource textControlStyle}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
         <Style BasedOn="{StaticResource textControlStyle}" TargetType="Button">
             <Setter Property="Height" Value="40"/>
             <Setter Property="Width" Value="200"/>
@@ -30,15 +29,28 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition/>
+
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
+
+            <RowDefinition Height="2*" MaxHeight="60"/>
         </Grid.RowDefinitions>
 
-        <TextBox Name="input" Grid.Row="0" IsReadOnly="False"/>
-        <TextBox Name="polinom" Grid.Row="1" IsReadOnly="True"/>
-        <TextBox Name="output" Grid.Row="2" IsReadOnly="True"/>
-        <Button Grid.Row="3" Click="Button_Click">Go</Button>
+        <TextBlock Grid.Row="0">Input</TextBlock>
+        <TextBox Grid.Row="1" Name="input" IsReadOnly="False"/>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" >
+            <TextBlock xml:space="preserve">Polinom  ---</TextBlock>
+            <TextBlock Name="polinom"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="3">Output</TextBlock>
+        <TextBox Grid.Row="4" Name="output" IsReadOnly="True"/>
+
+        <Button Grid.Row="5" Click="Button_Click">Go</Button>
     </Grid>
 </UserControl>

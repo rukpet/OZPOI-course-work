@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Windows;
+using static CourseWork.Abramson.Utilities;
 
 namespace CourseWork.GUI
 {
@@ -14,14 +15,15 @@ namespace CourseWork.GUI
 
 			encoder.Click = (o, e) => {
 				byte[] source = Encoding.Default.GetBytes(encoder.Input);
-				byte[] encodedSource = Abramson.Code.Encode(source);
-				encoder.Output = Encoding.Default.GetString(encodedSource);
+				int numberBits;
+				byte[] encodedSource = Abramson.Code.Encode(source, out numberBits);
+				encoder.Output = BitsToBinaryString(encodedSource, numberBits);
 			};
 
 			decoder.Click = (o, e) => {
-				byte[] source = Encoding.Default.GetBytes(decoder.Input);
+				byte[] source = BinaryStringToBytes(decoder.Input);
 				byte[] encodedSource = Abramson.Code.Decode(source);
-				decoder.Output = Encoding.Default.GetString(encodedSource);
+				decoder.Output = Encoding.Default.GetString(encodedSource).TrimEnd('\0');
 			};
 		}
 	}

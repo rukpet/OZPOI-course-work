@@ -12,7 +12,7 @@ namespace CourseWork.GUI
 		public AbramsonControl()
 		{
 			InitializeComponent();
-			Polinom = Abramson.Code.Polinom.ToString("b");
+			Polinom = Abramson.Code.Polinom;
 		}
 
 		public string Input
